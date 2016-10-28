@@ -1,0 +1,44 @@
+{
+  "name": "simple-scorm-wrapper",
+  "author": "lmihaidaniel <lacatusu.mihai.daniel@gmail.com>",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "Simple SCORM Wrapper for JavaScript",
+  "main": "index.js",
+  "js:next": "src/index.js",
+  "browser": "simple-scorm-wrapper.js",
+  "files": [
+  	"index.js",
+    "src"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c",
+    "browser": "NODE_ENV=browser rollup -c",
+    "minify": "NODE_ENV=minify rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lmihaidaniel/simple-scorm-wrapper.git"
+  },
+  "keywords": [
+    "lms",
+    "scorm",
+    "wrapper",
+    "js"
+  ],
+  "bugs": {
+    "url": "https://github.com/lmihaidaniel/simple-scorm-wrapper/issues"
+  },
+  "homepage": "https://github.com/lmihaidaniel/simple-scorm-wrapper#readme",
+  "devDependencies": {
+    "rollup": "latest",
+    "rollup-plugin-buble": "latest",
+    "rollup-plugin-eslint": "latest",
+    "rollup-plugin-strip": "latest",
+    "rollup-plugin-uglify": "latest"
+  },
+  "dependencies": {
+    "rollup-plugin-filesize": "latest"
+  }
+}
