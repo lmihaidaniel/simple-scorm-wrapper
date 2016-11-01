@@ -101,8 +101,11 @@ export default class Scorm {
 			}
 
 			if (isFunction(init)) {
+				let _init = init.bind(this);
 				init(this, result);
 			}
+
+			return this;
 		}
 	}
 
@@ -544,6 +547,11 @@ export default class Scorm {
 		}
 		return objIndex;
 	}
+	/**
+	 * [findDataStore description]
+	 * @param  {[string]} id [description]
+	 * @return {[integer]}    [data store index]
+	 */
 	findDataStore(id) {
 		if (this.version !== "2004") return;
 		let num = this.getValue("adl.data._count");
