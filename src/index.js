@@ -307,6 +307,9 @@ export default class Scorm {
 
 		return result.toString();
 	}
+	beforeTerminate(){
+
+	}
 	terminate(value) {
 		if (!this.initialized) return "true";
 		let api = this.getApiHandle();
@@ -334,6 +337,9 @@ export default class Scorm {
 
 
 			this.session_time("save");
+			if(isFunction(this.beforeTerminate)){
+				this.beforeTerminate();
+			}
 			success = this.commit();
 
 			// call the LMSFinish function that should be implemented by the API
