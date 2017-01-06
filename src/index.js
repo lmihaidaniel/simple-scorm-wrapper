@@ -60,6 +60,9 @@ let ErrorHandler = function(sc) {
 export default class Scorm {
 	constructor(settings = {}, init) {
 		this.version = settings.version || null;
+		if(this.version != null){
+			this.version = this.version.toString();
+		}
 		this.initialized = false;
 		this.api = null;
 		this.prefix = "";
@@ -77,6 +80,9 @@ export default class Scorm {
 		};
 		let result = this.initialize();
 		if (result != "true") {
+			if (isFunction(init)) {
+				init.bind(this)(result);
+			}
 			return false;
 		} else {
 
@@ -101,8 +107,7 @@ export default class Scorm {
 			}
 
 			if (isFunction(init)) {
-				let _init = init.bind(this);
-				init(this, result);
+				init.bind(this)(result);
 			}
 
 			return this;

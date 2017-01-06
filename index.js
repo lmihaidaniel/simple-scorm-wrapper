@@ -1,6 +1,6 @@
 /**
 * @name simple-scorm-wrapper
-* @version 0.1.0
+* @version 0.1.4
 * @description Simple SCORM Wrapper for JavaScript
 * @author lmihaidaniel <lacatusu.mihai.daniel@gmail.com>
 * @license MIT
@@ -235,6 +235,9 @@ var Scorm = function Scorm(settings, init) {
 	if ( settings === void 0 ) settings = {};
 
 	this.version = settings.version || null;
+	if(this.version != null){
+		this.version = this.version.toString();
+	}
 	this.initialized = false;
 	this.api = null;
 	this.prefix = "";
@@ -252,6 +255,9 @@ var Scorm = function Scorm(settings, init) {
 	};
 	var result = this.initialize();
 	if (result != "true") {
+		if (isFunction(init)) {
+			init.bind(this)(result);
+		}
 		return false;
 	} else {
 
@@ -276,8 +282,10 @@ var Scorm = function Scorm(settings, init) {
 		}
 
 		if (isFunction(init)) {
-			init(this, result);
+			init.bind(this)(result);
 		}
+
+		return this;
 	}
 };
 
@@ -481,6 +489,9 @@ Scorm.prototype.initialize = function initialize () {
 
 	return result.toString();
 };
+Scorm.prototype.beforeTerminate = function beforeTerminate (){
+
+};
 Scorm.prototype.terminate = function terminate (value) {
 	if (!this.initialized) { return "true"; }
 	var api = this.getApiHandle();
@@ -508,6 +519,9 @@ Scorm.prototype.terminate = function terminate (value) {
 
 
 		this.session_time("save");
+		if(isFunction(this.beforeTerminate)){
+			this.beforeTerminate();
+		}
 		success = this.commit();
 
 		// call the LMSFinish function that should be implemented by the API
@@ -723,6 +737,11 @@ Scorm.prototype.findObjective = function findObjective (objId) {
 	}
 	return objIndex;
 };
+/**
+	 * [findDataStore description]
+	 * @param  {[string]} id [description]
+	 * @return {[integer]}    [data store index]
+	 */
 Scorm.prototype.findDataStore = function findDataStore (id) {
 		var this$1 = this;
 

@@ -1,11 +1,11 @@
 {
   "name": "simple-scorm-wrapper",
   "author": "lmihaidaniel <lacatusu.mihai.daniel@gmail.com>",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "license": "MIT",
   "description": "Simple SCORM Wrapper for JavaScript",
   "main": "index.js",
-  "js:next": "src/index.js",
+  "jsnext:main": "src/index.js",
   "browser": "simple-scorm-wrapper.js",
   "files": [
   	"index.js",
@@ -13,9 +13,7 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c",
-    "browser": "NODE_ENV=browser rollup -c",
-    "minify": "NODE_ENV=minify rollup -c"
+    "start": "rollup -c && NODE_ENV=browser rollup -c && NODE_ENV=minify rollup -c"
   },
   "repository": {
     "type": "git",
