@@ -1,4 +1,4 @@
-`version 0.1.3`
+`version 0.1.6`
 
 ## Documentation
 
@@ -16,6 +16,7 @@ npm install simple-scorm-wrapper
 import scorm from 'simple-scorm-wrapper';
 
 let api = new Scorm({
+  exitValue: null, //optional use to enforce value sent when the program is terminated
   score: {
     min: 0,
     max: 100
@@ -30,3 +31,5 @@ let api = new Scorm({
 ```
 
 ## Methods
+
+api.exitValue = ""; // force cmi.exit value. Accepts one of these values : "", "normal", "logout", "suspend";

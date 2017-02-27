@@ -29,6 +29,8 @@ const defaults_confirm = {
 	label: "Are you sure you want to quit the program ?"
 }
 
+const exitValues = ["", "normal", "suspend", "logout"];
+
 const noOp = function noOp() {}
 
 let ErrorHandler = function(sc) {
@@ -65,6 +67,7 @@ export default class Scorm {
 		}
 		this.initialized = false;
 		this.api = null;
+		this.exitValue = settings.exitValue || null;
 		this.prefix = "";
 		this.completion_status = null;
 		this.message = settings.debugger || noOp;
@@ -315,7 +318,7 @@ export default class Scorm {
 	beforeTerminate(){
 
 	}
-	terminate(value) {
+	terminate(value = "") {
 		if (!this.initialized) return "true";
 		let api = this.getApiHandle();
 		let result = "false";
@@ -326,13 +329,11 @@ export default class Scorm {
 			let success = false;
 			let exitValue = value;
 
-			if (value != null) {
-				if (value === "logout" || value === "normal") {
-					if (this.version === "1.2") {
-						exitValue = "logout";
-					} else {
-						exitValue = "normal";
-					}
+			if (value === "logout" || value === "normal") {
+				if (this.version === "1.2") {
+					exitValue = "logout";
+				} else {
+					exitValue = "normal";
 				}
 			}
 
@@ -340,6 +341,7 @@ export default class Scorm {
 				exitValue = "suspend";
 			}
 
+			if(inArray(exitValues,this.exitValue)) exitValue = this.exitValue;
 
 			this.session_time("save");
 			if(isFunction(this.beforeTerminate)){
@@ -351,13 +353,13 @@ export default class Scorm {
 			let _terminate = noOp;
 			let cmd = "Terminate";
 			if (this.version === "1.2") {
-				if (exitValue != null) success = this.setValue("cmi.core.exit", exitValue);
+				success = this.setValue("cmi.core.exit", exitValue);
 				cmd = "LMSFinish";
 				_terminate = function(v) {
 					return api.LMSFinish(v);
 				};
 			} else {
-				if (exitValue != null) success = this.setValue("cmi.exit", exitValue);
+				success = this.setValue("cmi.exit", exitValue);
 				cmd = "Terminate";
 				_terminate = function(v) {
 					return api.Terminate(v);

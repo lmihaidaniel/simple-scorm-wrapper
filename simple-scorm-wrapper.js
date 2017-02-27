@@ -1,6 +1,6 @@
 /**
 * @name simple-scorm-wrapper
-* @version 0.1.5
+* @version 0.1.6
 * @description Simple SCORM Wrapper for JavaScript
 * @author lmihaidaniel <lacatusu.mihai.daniel@gmail.com>
 * @license MIT
@@ -203,6 +203,8 @@ var defaults_confirm = {
 	label: "Are you sure you want to quit the program ?"
 };
 
+var exitValues = ["", "normal", "suspend", "logout"];
+
 var noOp = function noOp() {};
 
 var ErrorHandler = function(sc) {
@@ -241,6 +243,7 @@ var Scorm = function Scorm(settings, init) {
 	}
 	this.initialized = false;
 	this.api = null;
+	this.exitValue = settings.exitValue || null;
 	this.prefix = "";
 	this.completion_status = null;
 	this.message = settings.debugger || noOp;
@@ -494,6 +497,8 @@ Scorm.prototype.beforeTerminate = function beforeTerminate (){
 
 };
 Scorm.prototype.terminate = function terminate (value) {
+		if ( value === void 0 ) value = "";
+
 	if (!this.initialized) { return "true"; }
 	var api = this.getApiHandle();
 	var result = "false";
@@ -504,13 +509,11 @@ Scorm.prototype.terminate = function terminate (value) {
 		var success = false;
 		var exitValue = value;
 
-		if (value != null) {
-			if (value === "logout" || value === "normal") {
-				if (this.version === "1.2") {
-					exitValue = "logout";
-				} else {
-					exitValue = "normal";
-				}
+		if (value === "logout" || value === "normal") {
+			if (this.version === "1.2") {
+				exitValue = "logout";
+			} else {
+				exitValue = "normal";
 			}
 		}
 
@@ -518,6 +521,7 @@ Scorm.prototype.terminate = function terminate (value) {
 			exitValue = "suspend";
 		}
 
+		if(inArray(exitValues,this.exitValue)) { exitValue = this.exitValue; }
 
 		this.session_time("save");
 		if(isFunction(this.beforeTerminate)){
@@ -529,13 +533,13 @@ Scorm.prototype.terminate = function terminate (value) {
 		var _terminate = noOp;
 		var cmd = "Terminate";
 		if (this.version === "1.2") {
-			if (exitValue != null) { success = this.setValue("cmi.core.exit", exitValue); }
+			success = this.setValue("cmi.core.exit", exitValue);
 			cmd = "LMSFinish";
 			_terminate = function(v) {
 				return api.LMSFinish(v);
 			};
 		} else {
-			if (exitValue != null) { success = this.setValue("cmi.exit", exitValue); }
+			success = this.setValue("cmi.exit", exitValue);
 			cmd = "Terminate";
 			_terminate = function(v) {
 				return api.Terminate(v);
