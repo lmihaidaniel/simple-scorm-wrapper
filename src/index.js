@@ -216,7 +216,7 @@ export default class Scorm {
 				}
 			} else {
 				if (this.version != "1.2") {
-					this.setValue("cmi.success_status", "passed");
+					this.setValue("cmi.success_status", "failed");
 				} else {
 					this.status("failed");
 				}
