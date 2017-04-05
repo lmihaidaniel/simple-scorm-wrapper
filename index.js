@@ -1,6 +1,6 @@
 /**
 * @name simple-scorm-wrapper
-* @version 0.1.6
+* @version 0.1.8
 * @description Simple SCORM Wrapper for JavaScript
 * @author lmihaidaniel <lacatusu.mihai.daniel@gmail.com>
 * @license MIT
@@ -393,7 +393,7 @@ Scorm.prototype.success = function success (v) {
 			}
 		} else {
 			if (this.version != "1.2") {
-				this.setValue("cmi.success_status", "passed");
+				this.setValue("cmi.success_status", "failed");
 			} else {
 				this.status("failed");
 			}
