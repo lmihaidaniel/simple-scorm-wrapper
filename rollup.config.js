@@ -46,11 +46,11 @@ export default {
 		filesize()
 	],
 	output: {
-		banner: ['/**','@name ' + name,'@version ' + version,'@description ' + description,'@author ' + author,'@license ' + license,'*/',].join('\n* '),
+		banner: !minify ? ['/**','@name ' + name,'@version ' + version,'@description ' + description,'@author ' + author,'@license ' + license,'*/',].join('\n* ') : false,
 		name: "Scorm",
 		format: browser ? "iife" : "cjs",
 		sourcemap: !browser,
-		sourcemapfile: 'index.js.map',
+		sourcemapFile: 'index.js.map',
 		file: dest,
 	},
 }

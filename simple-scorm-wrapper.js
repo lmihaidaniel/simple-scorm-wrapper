@@ -1,6 +1,6 @@
 /**
 * @name simple-scorm-wrapper
-* @version 0.1.9
+* @version 0.2.0
 * @description Simple SCORM Wrapper for JavaScript
 * @author lmihaidaniel <lacatusu.mihai.daniel@gmail.com>
 * @license MIT
