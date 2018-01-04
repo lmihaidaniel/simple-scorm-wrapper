@@ -12,7 +12,7 @@ if(browser){
 	dest = "simple-scorm-wrapper.js";
 }
 if(minify){
-	dest = "simple-scorm-wrapper.min.js";	
+	dest = "simple-scorm-wrapper.min.js";
 }
 
 
@@ -23,8 +23,7 @@ var name = require('./package.json').name,
 	description = require('./package.json').description;
 
 export default {
-	entry: 'src/index.js',
-	banner: ['/**','@name ' + name,'@version ' + version,'@description ' + description,'@author ' + author,'@license ' + license,'*/',].join('\n* '),
+	input: 'src/index.js',
 	plugins: [
 		eslint(),
 		buble(),
@@ -46,9 +45,12 @@ export default {
 		})),
 		filesize()
 	],
-	moduleName: "Scorm",
-	format: browser ? "iife" : "cjs",
-	dest: dest,
-	sourceMap: !browser,
-	sourceMapFile: 'index.js.map'
+	output: {
+		banner: ['/**','@name ' + name,'@version ' + version,'@description ' + description,'@author ' + author,'@license ' + license,'*/',].join('\n* '),
+		name: "Scorm",
+		format: browser ? "iife" : "cjs",
+		sourcemap: !browser,
+		sourcemapfile: 'index.js.map',
+		file: dest,
+	},
 }

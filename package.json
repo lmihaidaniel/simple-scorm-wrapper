@@ -1,14 +1,14 @@
 {
   "name": "simple-scorm-wrapper",
   "author": "lmihaidaniel <lacatusu.mihai.daniel@gmail.com>",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "license": "MIT",
   "description": "Simple SCORM Wrapper for JavaScript",
   "main": "index.js",
   "jsnext:main": "src/index.js",
   "browser": "simple-scorm-wrapper.js",
   "files": [
-  	"index.js",
+    "index.js",
     "src"
   ],
   "scripts": {

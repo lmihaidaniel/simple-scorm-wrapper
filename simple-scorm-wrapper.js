@@ -1,6 +1,6 @@
 /**
 * @name simple-scorm-wrapper
-* @version 0.1.8
+* @version 0.1.9
 * @description Simple SCORM Wrapper for JavaScript
 * @author lmihaidaniel <lacatusu.mihai.daniel@gmail.com>
 * @license MIT
@@ -25,8 +25,7 @@ function centisecsToISODuration(n, bPrecise) {
     nM = 0,
     nD = 0,
     nH = 0,
-    nMin = 0,
-    nS = 0;
+    nMin = 0;
   n = Math.max(n, 0); // there is no such thing as a negative duration
   var nCs = n;
   // Next set of operations uses whole seconds
@@ -686,11 +685,11 @@ Scorm.prototype.findAPI = function findAPI (win) {
 		if (win.API_1484_11) {
 			this.version = "2004";
 			this.prefix = "";
-			return win.API_1484_11;
+			api = win.API_1484_11;
 		} else if (win.API) {
 			this.version = "1.2";
 			this.prefix = "LMS";
-			return win.API;
+			api = win.API;
 		}
 	}
 	return api;
@@ -707,12 +706,12 @@ Scorm.prototype.getApi = function getApi () {
 	}
 
 	if (!theAPI && window.top && window.top.opener) {
-		theAPI = findAPI(window.top.opener);
+		theAPI = this.findAPI(window.top.opener);
 	}
 
 	//Special handling for Plateau
 	if (!theAPI && window.top && window.top.opener && window.top.opener.document) {
-		theAPI = findAPI(window.top.opener.document);
+		theAPI = this.findAPI(window.top.opener.document);
 	}
 
 	return theAPI;
@@ -754,7 +753,7 @@ Scorm.prototype.findDataStore = function findDataStore (id) {
 	var num = this.getValue("adl.data._count");
 	var index = -1;
 
-	// if the get value was not null and is a number 
+	// if the get value was not null and is a number
 	// in other words, we got an index in the adl.data array
 	if (num != null && !isNaN(num)) {
 		for (var i = 0; i < num; ++i) {

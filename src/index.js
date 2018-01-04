@@ -506,11 +506,11 @@ export default class Scorm {
 			if (win.API_1484_11) {
 				this.version = "2004";
 				this.prefix = "";
-				return win.API_1484_11;
+				api = win.API_1484_11;
 			} else if (win.API) {
 				this.version = "1.2";
 				this.prefix = "LMS";
-				return win.API;
+				api = win.API;
 			}
 		}
 		return api;
@@ -527,12 +527,12 @@ export default class Scorm {
 		}
 
 		if (!theAPI && window.top && window.top.opener) {
-			theAPI = findAPI(window.top.opener);
+			theAPI = this.findAPI(window.top.opener);
 		}
 
 		//Special handling for Plateau
 		if (!theAPI && window.top && window.top.opener && window.top.opener.document) {
-			theAPI = findAPI(window.top.opener.document);
+			theAPI = this.findAPI(window.top.opener.document);
 		}
 
 		return theAPI;
@@ -570,7 +570,7 @@ export default class Scorm {
 		let num = this.getValue("adl.data._count");
 		let index = -1;
 
-		// if the get value was not null and is a number 
+		// if the get value was not null and is a number
 		// in other words, we got an index in the adl.data array
 		if (num != null && !isNaN(num)) {
 			for (let i = 0; i < num; ++i) {
