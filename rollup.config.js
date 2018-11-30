@@ -1,26 +1,20 @@
-import eslint from 'rollup-plugin-eslint';
+import {eslint} from 'rollup-plugin-eslint';
 import strip from 'rollup-plugin-strip';
 import buble from 'rollup-plugin-buble';
-import uglify from 'rollup-plugin-uglify';
+import {uglify} from 'rollup-plugin-uglify';
 import filesize from 'rollup-plugin-filesize';
+import pkg from './package.json';
 
-var browser = (process.env.NODE_ENV === 'browser' || process.env.NODE_ENV === 'minify');
-var minify = (process.env.NODE_ENV === 'minify');
-
-var dest = 'index.js';
-if(browser){
-	dest = "simple-scorm-wrapper.js";
-}
-if(minify){
-	dest = "simple-scorm-wrapper.min.js";
-}
-
-
-var name = require('./package.json').name,
-	author = require('./package.json').author,
-	version = require('./package.json').version,
-	license = require('./package.json').license,
-	description = require('./package.json').description;
+var browser = (process.env.NODE_ENV === 'browser' || process.env.NODE_ENV === 'minify'),
+	minify = (process.env.NODE_ENV === 'minify'),
+	banner = `/**
+ * @name ${pkg.name}
+ * @version ${pkg.version}
+ * @description ${pkg.description}
+ * @author ${pkg.author}
+ * @license ${pkg.license}
+ */
+`;
 
 export default {
 	input: 'src/index.js',
@@ -34,11 +28,9 @@ export default {
 		})),
 		(minify && uglify({
 			output: {
-				comments: function(node, comment) {
-					var text = comment.value;
-					var type = comment.type;
-					if (type == "comment2") {
-						return /@name|@version|@author|@license/i.test(text);
+				comments: (node, comment) => {
+					if (comment.type == 'comment2') {
+						return /@name|@version|@author|@license/i.test(comment.value);
 					}
 				}
 			}
@@ -46,11 +38,11 @@ export default {
 		filesize()
 	],
 	output: {
-		banner: !minify ? ['/**','@name ' + name,'@version ' + version,'@description ' + description,'@author ' + author,'@license ' + license,'*/',].join('\n* ') : false,
-		name: "Scorm",
-		format: browser ? "iife" : "cjs",
+		banner: !minify ? banner : false,
+		name: 'Scorm',
+		format: browser ? 'iife' : 'cjs',
 		sourcemap: !browser,
 		sourcemapFile: 'index.js.map',
-		file: dest,
+		file: minify && 'simple-scorm-wrapper.min.js' || browser && 'simple-scorm-wrapper.js' || 'index.js'
 	},
 }

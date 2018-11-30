@@ -1,10 +1,11 @@
 /**
-* @name simple-scorm-wrapper
-* @version 0.2.0
-* @description Simple SCORM Wrapper for JavaScript
-* @author lmihaidaniel <lacatusu.mihai.daniel@gmail.com>
-* @license MIT
-* */
+ * @name simple-scorm-wrapper
+ * @version 0.2.1
+ * @description Simple SCORM Wrapper for JavaScript
+ * @author lmihaidaniel <lacatusu.mihai.daniel@gmail.com>
+ * @license MIT
+ */
+
 'use strict';
 
 var pad = function (num, size) {
@@ -14,7 +15,7 @@ var pad = function (num, size) {
 };
 
 function isFunction(v) {
-  return typeof v === 'function' || false // avoid IE problems
+  return typeof v === 'function' || false; // avoid IE problems
 }
 
 function centisecsToISODuration(n, bPrecise) {
@@ -61,7 +62,6 @@ function centisecsToISODuration(n, bPrecise) {
 function isDomElement(value) {
   return !!value && typeof value === 'object' && value.nodeType === 1;
 }
-
 function formatTime(duration, version) {
   if ( version === void 0 ) version = "1.2";
 
@@ -80,7 +80,6 @@ function formatTime(duration, version) {
     return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
   }
 }
-
 function inArray(arr, item) {
   return arr.indexOf(item) > -1;
 }
@@ -190,12 +189,12 @@ var _NoError = {
 	"code": "0",
 	"string": "No Error",
 	"diagnostic": "No Error"
-};
-var _GeneralException = {
+};var _GeneralException = {
 	"code": "101",
 	"string": "General Exception",
 	"diagnostic": "General Exception"
 };
+
 var defaults_confirm = {
 	confirm: false,
 	label: "Are you sure you want to quit the program ?"
@@ -719,14 +718,12 @@ Scorm.prototype.getApi = function getApi () {
 //2004 Scorm version related
 
 Scorm.prototype.findObjective = function findObjective (objId) {
-		var this$1 = this;
-
 	if (this.version !== "2004") { return; }
 	var num = this.getValue("cmi.objectives._count");
 	var objIndex = -1;
 
 	for (var i = 0; i < num; ++i) {
-		if (this$1.getValue("cmi.objectives." + i + ".id") == objId) {
+		if (this.getValue("cmi.objectives." + i + ".id") == objId) {
 			objIndex = i;
 			break;
 		}
@@ -746,8 +743,6 @@ Scorm.prototype.findObjective = function findObjective (objId) {
 	 * @return {[integer]}    [data store index]
 	 */
 Scorm.prototype.findDataStore = function findDataStore (id) {
-		var this$1 = this;
-
 	if (this.version !== "2004") { return; }
 	var num = this.getValue("adl.data._count");
 	var index = -1;
@@ -756,7 +751,7 @@ Scorm.prototype.findDataStore = function findDataStore (id) {
 	// in other words, we got an index in the adl.data array
 	if (num != null && !isNaN(num)) {
 		for (var i = 0; i < num; ++i) {
-			if (this$1.getValue("adl.data." + i + ".id") == id) {
+			if (this.getValue("adl.data." + i + ".id") == id) {
 				index = i;
 				break;
 			}

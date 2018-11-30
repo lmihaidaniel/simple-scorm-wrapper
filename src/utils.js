@@ -5,7 +5,7 @@ const pad = (num, size) => {
 };
 
 export function isFunction(v) {
-  return typeof v === 'function' || false // avoid IE problems
+  return typeof v === 'function' || false; // avoid IE problems
 }
 
 function centisecsToISODuration(n, bPrecise) {
